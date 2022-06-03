@@ -9,6 +9,9 @@ function getEnvPath(dest) {
 
   if (!existsSync(filePath)) {
     filePath = fallback;
+    console.log('No .env file found. Setting fallback.');
+  } else {
+    console.log('.env file was found.');
   }
 
   return filePath;
