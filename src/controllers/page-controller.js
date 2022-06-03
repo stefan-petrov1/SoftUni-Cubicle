@@ -4,21 +4,8 @@ module.exports = {
     res.render('index', { cubes });
   },
 
-  create(req, res) {
-    res.render('create');
-  },
-
   about(req, res) {
     res.render('about');
-  },
-
-  async details(req, res) {
-    const cubeId = req.params.id;
-
-    const cube = await req.cubeService.getCubeById(cubeId).lean();
-    const cubeAccessories = await req.cubeService.getCubeAccessories(cubeId, req.accessoryService);
-
-    res.render('details', { cube, cubeAccessories });
   },
 
   async attachAccessory(req, res) {
