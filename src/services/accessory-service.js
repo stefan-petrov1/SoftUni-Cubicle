@@ -5,7 +5,7 @@ function getAccessories() {
 }
 
 async function getAvailableAccessories(cubeId) {
-  return (await this.getAccessories()).filter(x => !x.cubes.some(x => x == cubeId));
+  return Accessory.find({ cubes: cubeId });
 }
 
 function getAccessoryById(id) {
