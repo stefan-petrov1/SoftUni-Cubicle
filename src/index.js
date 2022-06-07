@@ -4,7 +4,7 @@ const config = setupConfig(`${__dirname}/config/envs`);
 const app = require('express')();
 const initializeDb = require('./config/database');
 
-require('./config/express')(app);
+require('./config/express')(app, config);
 require('./config/routes')(app);
 
 async function main() {
