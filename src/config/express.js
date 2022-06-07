@@ -1,4 +1,4 @@
-const cookieparser = require('cookieparser');
+const cookieParser = require('cookie-parser');
 const express = require('express');
 const handlebars = require('express-handlebars');
 const { attachAccessoryServiceMiddleware } = require('../services/accessory-service');
@@ -18,7 +18,7 @@ module.exports = (app, config) => {
   app.use(express.static('./src/public'));
 
   // Setup cookie parser
-  app.use(cookieparser());
+  app.use(cookieParser());
 
   // Setup middlewares
   app.use(attachAccessoryServiceMiddleware);
