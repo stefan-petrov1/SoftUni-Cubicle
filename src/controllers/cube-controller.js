@@ -12,6 +12,14 @@ module.exports = {
     res.render('details', { cube, cubeAccessories });
   },
 
+  renderEditCube(req, res) {
+    res.render('editCubePage');
+  },
+
+  renderDeleteCube(req, res) {
+    res.render('deleteCubePage');
+  },
+
   async searchCubes(req, res) {
     try {
       const cubes = await req.cubeService.searchCube(req.body);
