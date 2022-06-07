@@ -10,7 +10,8 @@ const cubeSchema = new mongoose.Schema({
     min: [1, 'Difficulty level {VALUE} is invalid. It must be from 1 to 6.'],
     max: [6, 'Difficulty level {VALUE} is invalid. It must be from 1 to 6.'],
   },
-  accessories: [{ type: mongoose.Types.ObjectId, ref: 'Accessory' }]
+  accessories: [{ type: mongoose.Types.ObjectId, ref: 'Accessory' }],
+  creatorId: { type: String, required: true }
 });
 
 cubeSchema.path('imageUrl').validate((val) => {
