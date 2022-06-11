@@ -1,6 +1,7 @@
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const handlebars = require('express-handlebars');
+const { authMiddleware } = require('../middlewares/auth-middleware');
 const { attachAccessoryServiceMiddleware } = require('../services/accessory-service');
 const { attachAuthServiceMiddleware } = require('../services/auth-service');
 const { attachCubeServiceMiddleware } = require('../services/cube-service');
@@ -24,6 +25,8 @@ module.exports = (app, config) => {
   // Setup middlewares
   app.use(attachAccessoryServiceMiddleware);
   app.use(attachCubeServiceMiddleware);
-  app.use(attachAuthServiceMiddleware(config.JWT_SECRET));
   app.use(attachUserService);
+
+  app.use(authMiddleware)
+  app.use(attachAuthServiceMiddleware(config.JWT_SECRET));
 };
