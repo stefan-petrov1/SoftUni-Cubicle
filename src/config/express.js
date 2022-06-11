@@ -4,6 +4,7 @@ const handlebars = require('express-handlebars');
 const { attachAccessoryServiceMiddleware } = require('../services/accessory-service');
 const { attachAuthServiceMiddleware } = require('../services/auth-service');
 const { attachCubeServiceMiddleware } = require('../services/cube-service');
+const { attachUserService } = require('../services/user-service');
 
 module.exports = (app, config) => {
   // Setup the view engine
@@ -24,4 +25,5 @@ module.exports = (app, config) => {
   app.use(attachAccessoryServiceMiddleware);
   app.use(attachCubeServiceMiddleware);
   app.use(attachAuthServiceMiddleware(config.JWT_SECRET));
+  app.use(attachUserService);
 };
