@@ -9,7 +9,7 @@ const { attachUserService } = require('../services/user-service');
 
 module.exports = (app, config) => {
   // Setup the view engine
-  app.engine('hbs', handlebars.engine({ extname: 'hbs' }));
+  app.engine('hbs', handlebars.engine({ extname: 'hbs', helpers: require('./hbs-helpers') }));
   app.set('view engine', 'hbs');
   app.set('views', './src/views')
 
