@@ -1,5 +1,6 @@
 const authMiddleware = (req, res, next) => {
-  req.isAuthenticated = true;
+  // DEBUG PURSOSES
+  req.isAuthenticated = false;
   res.locals.isAuthenticated = req.isAuthenticated;
 
   next();
