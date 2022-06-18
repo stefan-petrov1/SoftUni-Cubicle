@@ -1,5 +1,3 @@
-const jsonwebtoken = require('jsonwebtoken');
-
 const authMiddleware = async (req, res, next) => {
   const userData = await req.authService.getSessionData(req.cookies);
 
