@@ -31,6 +31,10 @@ async function register(data) {
     throw new Error('Passwords must match!');
   }
 
+  if (await User.findOne({ username: data.username })) {
+    throw new Error('User with the same username already exists.');
+  }
+
   const hashPass = await bcrypt.hash(data.password, saltRounds);
 
   await User.create({
