@@ -22,11 +22,13 @@ module.exports = (app, config) => {
   // Setup cookie parser
   app.use(cookieParser(config.COOKIE_SECRET));
 
+  // Setup authentication
+  app.use(attachAuthServiceMiddleware(config.JWT_SECRET));
+  app.use(authMiddleware);
+
   // Setup middlewares
   app.use(attachAccessoryServiceMiddleware);
   app.use(attachCubeServiceMiddleware);
-  app.use(attachUserService(config.JWT_SECRET));
+  app.use(attachUserService);
 
-  app.use(authMiddleware)
-  app.use(attachAuthServiceMiddleware(config.JWT_SECRET));
 };

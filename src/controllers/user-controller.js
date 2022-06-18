@@ -7,6 +7,11 @@ module.exports = {
     res.render('registerPage');
   },
 
+  logout(req, res) {
+    req.authService.logout(res);
+    res.redirect('/');
+  },
+
   async login(req, res) {
     try {
       const jwt = await req.userService.login(req.body, req.authService);
@@ -25,5 +30,5 @@ module.exports = {
     } catch (e) {
       res.status(400).send(e.message);
     }
-  }
+  },
 };

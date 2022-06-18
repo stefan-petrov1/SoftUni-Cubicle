@@ -19,7 +19,8 @@ async function login(data, authService) {
     throw new Error('Incorrect password!');
   }
 
-  return authService.createJWT(user);
+  const { __v, ...publicData } = user;
+  return authService.createJWT(publicData);
 }
 
 async function register(data) {
@@ -39,7 +40,7 @@ async function register(data) {
   });
 }
 
-exports.attachUserService = (secret) => (req, res, next) => {
+exports.attachUserService = (req, res, next) => {
   req.userService = {
     login,
     register,

@@ -1,10 +1,10 @@
 const jsonwebtoken = require('jsonwebtoken');
 
-const authMiddleware = (req, res, next) => {
-  // DEBUG PURSOSES
-  req.isAuthenticated = false;
-  res.locals.isAuthenticated = req.isAuthenticated;
+const authMiddleware = async (req, res, next) => {
+  const userData = await req.authService.getSessionData(req.cookies);
 
+  req.user = userData;
+  res.locals.isAuthenticated = Boolean(userData);
 
   next();
 }
