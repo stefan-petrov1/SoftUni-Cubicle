@@ -1,9 +1,17 @@
 module.exports = {
   renderLogin(req, res) {
+    if (req.isAuthenticated) {
+      return res.redirect('/');
+    }
+
     res.render('loginPage');
   },
 
   renderRegister(req, res) {
+    if (req.isAuthenticated) {
+      return res.redirect('/');
+    }
+
     res.render('registerPage');
   },
 
