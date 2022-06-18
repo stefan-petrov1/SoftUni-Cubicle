@@ -9,8 +9,8 @@ module.exports = {
 
   async login(req, res) {
     try {
-      const jwt = await req.userService.login(req.body);
-      res.cookie('session', jwt, { httpOnly: true });
+      const jwt = await req.userService.login(req.body, req.authService);
+      req.authService.sendAuthCookie(res, jwt);
 
       res.redirect('/');
     } catch (e) {

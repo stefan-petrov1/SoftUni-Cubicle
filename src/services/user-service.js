@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 const saltRounds = 10;
 
-async function login(secret, data) {
+async function login(data, authService) {
   if (!data.username || !data.password) {
     throw new Error('Missing username/password.');
   }
@@ -19,15 +19,7 @@ async function login(secret, data) {
     throw new Error('Incorrect password!');
   }
 
-  return new Promise((resolve, reject) => {
-    jsonwebtoken.sign(user, secret, { expiresIn: '2d' }, (err, jwt) => {
-      if (err) {
-        return reject(err);
-      }
-
-      resolve(jwt);
-    })
-  });
+  return authService.createJWT(user);
 }
 
 async function register(data) {
@@ -49,7 +41,7 @@ async function register(data) {
 
 exports.attachUserService = (secret) => (req, res, next) => {
   req.userService = {
-    login: login.bind(null, secret),
+    login,
     register,
   }
 
