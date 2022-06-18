@@ -7,11 +7,23 @@ module.exports = {
     res.render('registerPage');
   },
 
-  login(req, res) {
+  async login(req, res) {
+    try {
+      const jwt = await req.userService.login(req.body);
+      res.cookie('session', jwt, { httpOnly: true });
 
+      res.redirect('/');
+    } catch (e) {
+      res.status(400).send(e.message);
+    }
   },
 
-  register(req, res) {
-
+  async register(req, res) {
+    try {
+      await req.userService.register(req.body);
+      res.redirect('/users/login');
+    } catch (e) {
+      res.status(400).send(e.message);
+    }
   }
 };

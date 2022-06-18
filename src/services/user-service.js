@@ -1,17 +1,56 @@
 const User = require('../models/user-model');
+const jsonwebtoken = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
-function login(res, jwt) {
-  console.log('logging');
+const saltRounds = 10;
+
+async function login(secret, data) {
+  if (!data.username || !data.password) {
+    throw new Error('Missing username/password.');
+  }
+
+  const user = await User.findOne({ username: data.username }).lean();
+
+  if (!user) {
+    throw new Error('User with that username doesn\'t exist!');
+  }
+
+  if (!await bcrypt.compare(data.password, user.password)) {
+    throw new Error('Incorrect password!');
+  }
+
+  return new Promise((resolve, reject) => {
+    jsonwebtoken.sign(user, secret, { expiresIn: '2d' }, (err, jwt) => {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve(jwt);
+    })
+  });
 }
 
-function register(secret, value) {
-  console.log('register');
+async function register(data) {
+  if (!data.username || !data.password) {
+    throw new Error('Missing username/password.');
+  }
+
+  if (data.password != data.repeatPassword) {
+    throw new Error('Passwords must match!');
+  }
+
+  const hashPass = await bcrypt.hash(data.password, saltRounds);
+
+  await User.create({
+    ...data,
+    password: hashPass
+  });
 }
 
-exports.attachUserService = (req, res, next) => {
-  req.authService = {
-    login,
-    register
+exports.attachUserService = (secret) => (req, res, next) => {
+  req.userService = {
+    login: login.bind(null, secret),
+    register,
   }
 
   next();

@@ -20,12 +20,12 @@ module.exports = (app, config) => {
   app.use(express.static('./src/public'));
 
   // Setup cookie parser
-  app.use(cookieParser());
+  app.use(cookieParser(config.COOKIE_SECRET));
 
   // Setup middlewares
   app.use(attachAccessoryServiceMiddleware);
   app.use(attachCubeServiceMiddleware);
-  app.use(attachUserService);
+  app.use(attachUserService(config.JWT_SECRET));
 
   app.use(authMiddleware)
   app.use(attachAuthServiceMiddleware(config.JWT_SECRET));
