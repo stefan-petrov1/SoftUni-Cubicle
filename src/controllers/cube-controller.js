@@ -19,12 +19,16 @@ module.exports = {
       return res.redirect('/');
     }
 
-    console.log(cube);
     res.render('editCubePage', { cube });
   },
 
-  renderDeleteCube(req, res) {
-    res.render('deleteCubePage');
+  async renderDeleteCube(req, res) {
+    const cube = await req.cubeService.getCubeById(req.params.id).lean();
+    if (req.user?._id != cube.creatorId) {
+      return res.redirect('/');
+    }
+
+    res.render('deleteCubePage', { cube });
   },
 
   async searchCubes(req, res) {
