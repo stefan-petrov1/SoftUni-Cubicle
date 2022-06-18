@@ -24,6 +24,7 @@ module.exports = {
 
   async renderDeleteCube(req, res) {
     const cube = await req.cubeService.getCubeById(req.params.id).lean();
+
     if (req.user?._id != cube.creatorId) {
       return res.redirect('/');
     }
@@ -52,5 +53,10 @@ module.exports = {
   async deleteCube(req, res) {
     await req.cubeService.deleteCube(req.params.id);
     res.redirect('/');
-  }
+  },
+
+  async editCube(req, res) {
+    await req.cubeService.editCube(req.params.id, req.body);
+    res.redirect('/')
+  },
 }

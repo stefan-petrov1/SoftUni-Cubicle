@@ -21,6 +21,10 @@ async function deleteCube(cubeId) {
   await Cube.deleteOne({ _id: cubeId });
 }
 
+async function editCube(cubeId, newData) {
+  await Cube.findByIdAndUpdate(cubeId, { $set: newData });
+}
+
 function searchCube(searchBody) {
   const options = {};
 
@@ -52,7 +56,8 @@ exports.attachCubeServiceMiddleware = (req, res, next) => {
     addCube,
     getCubeAccessories,
     searchCube,
-    deleteCube
+    deleteCube,
+    editCube
   };
 
   next();
