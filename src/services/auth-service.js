@@ -17,7 +17,7 @@ function createJWT(secret, value) {
 
       resolve(signedToken);
     });
-  })
+  });
 }
 
 async function getSessionData(secret, cookies) {
