@@ -17,6 +17,10 @@ async function getCubeAccessories(cubeId, accessoryService) {
   return Promise.all(cube.accessories.map(x => accessoryService.getAccessoryById(x).lean()));
 }
 
+async function deleteCube(cubeId) {
+  await Cube.deleteOne({ _id: cubeId });
+}
+
 function searchCube(searchBody) {
   const options = {};
 
@@ -47,7 +51,8 @@ exports.attachCubeServiceMiddleware = (req, res, next) => {
     getCubeById,
     addCube,
     getCubeAccessories,
-    searchCube
+    searchCube,
+    deleteCube
   };
 
   next();

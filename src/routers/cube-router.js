@@ -11,4 +11,6 @@ router.get('/delete/:id', allowAuthenticatedMiddleware, cubeController.renderDel
 router.post('/search', cubeController.searchCubes);
 router.post('/create', allowAuthenticatedMiddleware, cubeController.createCube);
 
+router.post('/delete/:id', allowAuthenticatedMiddleware, cubeController.deleteCube);
+
 exports.cubeRouter = router;

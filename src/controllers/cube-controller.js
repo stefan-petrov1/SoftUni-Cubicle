@@ -47,5 +47,10 @@ module.exports = {
     } catch (e) {
       res.status(400).send(e.message);
     }
+  },
+
+  async deleteCube(req, res) {
+    await req.cubeService.deleteCube(req.params.id);
+    res.redirect('/');
   }
 }
