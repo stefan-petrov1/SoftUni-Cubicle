@@ -1,13 +1,14 @@
 const cubeController = require('../controllers/cube-controller');
+const { allowAuthenticatedMiddleware } = require('../middlewares/allow-authenticated-middleware');
 const router = require('express').Router();
 
-router.get('/create', cubeController.renderCreate);
+router.get('/create', allowAuthenticatedMiddleware, cubeController.renderCreate);
 router.get('/:id', cubeController.renderCubeDetails);
 
-router.get('/edit/:id', cubeController.renderEditCube);
-router.get('/delete/:id', cubeController.renderDeleteCube);
+router.get('/edit/:id', allowAuthenticatedMiddleware, cubeController.renderEditCube);
+router.get('/delete/:id', allowAuthenticatedMiddleware, cubeController.renderDeleteCube);
 
 router.post('/search', cubeController.searchCubes);
-router.post('/create', cubeController.createCube);
+router.post('/create', allowAuthenticatedMiddleware, cubeController.createCube);
 
 exports.cubeRouter = router;
