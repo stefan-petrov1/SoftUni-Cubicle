@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const { jwtVerify, jwtSign } = require('../utils/jwt-utils');
 const cookieKey = 'session';
 
 const cookieMaxAgeHours = 48;
@@ -9,32 +9,18 @@ function sendAuthCookie(res, jwt) {
 }
 
 function createJWT(secret, value) {
-  return new Promise((resolve, reject) => {
-    jwt.sign(value, secret, { expiresIn: jwtExpireTime }, (err, signedToken) => {
-      if (err) {
-        return reject(err);
-      }
-
-      resolve(signedToken);
-    });
-  });
+  return jwtSign(value, secret, { expiresIn: jwtExpireTime });
 }
 
 async function getSessionData(secret, cookies) {
   const sessionToken = cookies[cookieKey];
 
-  const token = await new Promise((resolve, reject) => {
-    jwt.verify(sessionToken, secret, (err, decodedToken) => {
-      if (err) {
-        return resolve(undefined);
-      }
-
-      const { iat, exp, ...publicTokenData } = decodedToken;
-      resolve(publicTokenData);
-    });
-  });
-
-  return token;
+  try {
+    const { iat, exp, ...publicSessionData } = await jwtVerify(sessionToken, secret);
+    return publicSessionData;
+  } catch (err) {
+    return undefined;
+  }
 }
 
 function logout(res) {
